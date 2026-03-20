@@ -4,6 +4,7 @@ import mysql.connector
 
 from tkinter import *
 from tkinter import ttk
+from PIL import Image, ImageTk
 
 def init_prog():
 
@@ -11,10 +12,30 @@ def init_prog():
     azul = "#0394fc"
     branco = "#ffffff"
     preto = "#000000"
-    vermelho =  "##d92316"
+    vermelho =  "#d92316"
     verde = "##30d927"
 
-    
+    root = Tk()
+    root.title("Controle de Estoque - Galeria do Metal")
+    root.resizable(width=FALSE, height=FALSE)
+    image = Image.open()
+    photo = ImageTk.PhotoImage(image)
+
+    tarja = Frame(root, width=400, height=80, bg=azul, relief='flat')
+    tarja.grid(row=0, column=0)
+
+    escopo = Frame(root, width=310, height=500, bg=branco, relief='flat')
+    escopo.grid(row=1, column=0, padx=1, pady=0, sticky=NSEW)
+
+    direita = Frame(root, width=1000, height=80, bg=preto, relief='flat')
+    direita.grid(row=0, column=1, rowspan=2, padx=1, pady=0, sticky=NSEW)
+
+    nomep = Label(tarja, text='Controle de Estoque', bg=azul, fg=branco, font=('Ivy 8'), anchor=NW, relief='flat')
+    nomep.place(x=60, y=40)
+
+    root.iconphoto(True, photo)
+    root.mainloop()
+
 
 # Conexão com o MySQL
 
@@ -23,7 +44,8 @@ try:
     conn = mysql.connector.connect(
         user='root',
         password='whyblu3',
-        host='localhost:8080',
+        host='localhost',
+        port='3306',
         database='estoque_discos'
     )
 
@@ -42,6 +64,8 @@ finally:
         conn.close()
 
 estoque = {}
+
+# Funções
 
 def adicionar_produto(nome, quantidade):
     estoque[nome] = estoque.get(nome, 0) + quantidade
