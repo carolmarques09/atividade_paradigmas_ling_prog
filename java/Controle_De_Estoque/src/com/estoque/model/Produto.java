@@ -40,11 +40,11 @@ public class Produto {
         this.preco = preco;
     }
 
-    public Produto getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(Produto categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 }

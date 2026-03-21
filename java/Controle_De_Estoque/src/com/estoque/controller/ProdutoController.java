@@ -4,7 +4,6 @@ import com.estoque.dao.ProdutoDAO;
 import com.estoque.model.Produto;
 import com.estoque.util.Validador;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class ProdutoController {
@@ -17,42 +16,85 @@ public class ProdutoController {
 
     public void cadastrarProduto(String nome, int quantidade, double preco) {
 
-        if (!Validador.nomeValido(nome)) {
-            throw new IllegalArgumentException("Nome inválido!");
+        try {
+            if (!Validador.nomeValido(nome)) {
+                throw new IllegalArgumentException("Nome inválido!");
+            }
+
+            if (quantidade < 0) {
+                throw new IllegalArgumentException("Quantidade inválida!");
+            }
+
+            if (preco <= 0) {
+                throw new IllegalArgumentException("Preço inválido!");
+            }
+
+            Produto produto = new Produto();
+            produto.setNome(nome);
+            produto.setQuantidade(quantidade);
+            produto.setPreco(preco);
+
+            dao.inserir(produto);
+
+            System.out.println("Produto cadastrado com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro de validação: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("Erro ao cadastrar produto: " + e.getMessage());
         }
-
-        if (quantidade < 0) {
-            throw new IllegalArgumentException("Quantidade inválida!");
-        }
-
-        if (preco <= 0) {
-            throw new IllegalArgumentException("Preço inválido!");
-        }
-
-        Produto produto = new Produto();
-        produto.setNome(nome);
-        produto.setQuantidade(quantidade);
-        produto.setPreco(preco);
-
-        dao.inserir(produto);
     }
 
-    public List<Produto> listarProdutos() throws SQLException {
-        return dao.listar();
-    }
+    public void listarProdutos() {
+        try {
+            List<Produto> lista = dao.listar();
 
-    public void atualizarEstoque(int id, int novaQuantidade) throws SQLException {
+            if (lista.isEmpty()) {
+                System.out.println("Nenhum produto cadastrado.");
+                return;
+            }
 
-        if (novaQuantidade < 0) {
-            throw new IllegalArgumentException("Quantidade inválida!");
+            for (Produto p : lista) {
+                System.out.println("ID: " + p.getId());
+                System.out.println("Nome: " + p.getNome());
+                System.out.println("Quantidade: " + p.getQuantidade());
+                System.out.println("Preço: " + p.getPreco());
+                System.out.println("------------------------");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao listar produtos: " + e.getMessage());
         }
-
-        dao.atualizarQuantidade(id, novaQuantidade);
     }
 
-    public void removerProduto(int id) throws SQLException {
-        dao.deletar(id);
+    public void atualizarEstoque(int id, int novaQuantidade) {
+
+        try {
+            if (novaQuantidade < 0) {
+                throw new IllegalArgumentException("Quantidade inválida!");
+            }
+
+            dao.atualizarQuantidade(id, novaQuantidade);
+
+            System.out.println("Estoque atualizado com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Erro de validação: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar estoque: " + e.getMessage());
+        }
     }
 
-    // chama o DAO (Data Access Object)
+    public void removerProduto(int id) {
+
+        try {
+            dao.deletar(id);
+            System.out.println("Produto removido com sucesso!");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao remover produto: " + e.getMessage());
+        }
+    }
 }
