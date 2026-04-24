@@ -17,7 +17,7 @@ Sistema de controle de estoque que permite cadastrar, consultar, atualizar e rem
 
 | Linguagem | Recursos utilizados |
 |-----------|-------------------|
-| Python | Tkinter (GUI), MySQL (banco de dados) |
+| Python | Kivy (GUI), MySQL (banco de dados) |
 | Java | POO (Classes, Herança, Encapsulamento) |
 | SQL | Modelagem e manipulação de dados |
 
