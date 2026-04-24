@@ -1,7 +1,17 @@
 from kivy.app import App
-# ... demais imports do kivy ...
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.widget import Widget
+from kivy.graphics import Color, Rectangle, RoundedRectangle
+from kivy.core.window import Window
+from kivy.metrics import dp
+from kivy.uix.popup import Popup
 
-import mysql.connector  # <-- adiciona aqui
+import mysql.connector
 
 # ─── Conexão MySQL ────────────────────────────────────────────────────────────
 conn = mysql.connector.connect(
@@ -47,19 +57,6 @@ def alterar_produto(id_produto, novo_nome, nova_quantidade, novo_preco):
 Controle de Estoque - Galeria do Metal
 Interface gráfica em Kivy
 """
-
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
-from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.widget import Widget
-from kivy.graphics import Color, Rectangle, RoundedRectangle
-from kivy.core.window import Window
-from kivy.metrics import dp
-from kivy.uix.popup import Popup
 
 # ─── Paleta ───────────────────────────────────────────────────────────────────
 AZUL        = (0.012, 0.580, 0.988, 1)   # #0394fc
@@ -255,8 +252,8 @@ class FormPanel(BoxLayout):
 
     def _vender(self, *_):
         try:
-            nome      = self._get("nome")
-            quantidade= int(self._get("quantidade"))
+            nome = self._get("nome")
+            quantidade = int(self._get("quantidade"))
             if not nome:
                 raise ValueError("Nome obrigatório")
             vender_produto(nome, quantidade)
@@ -268,10 +265,10 @@ class FormPanel(BoxLayout):
 
     def _alterar(self, *_):
         try:
-            id_prod   = int(self._get("id"))
-            nome      = self._get("nome")
-            quantidade= int(self._get("quantidade"))
-            preco     = float(self._get("preco"))
+            id_prod = int(self._get("id"))
+            nome = self._get("nome")
+            quantidade = int(self._get("quantidade"))
+            preco = float(self._get("preco"))
             alterar_produto(id_prod, nome, quantidade, preco)
             self.log(f"[UPD] ID={id_prod} '{nome}' atualizado", AZUL)
             popup_msg("Atualizado", f"Produto ID {id_prod} atualizado!", AZUL)
@@ -345,7 +342,7 @@ class RootLayout(BoxLayout):
     def __init__(self, **kw):
         super().__init__(orientation="horizontal", **kw)
         right = RightPanel()
-        form  = FormPanel(log_callback=right.log)
+        form = FormPanel(log_callback=right.log)
         self.add_widget(form)
         self.add_widget(right)
 
