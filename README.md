@@ -20,6 +20,9 @@ Sistema de controle de estoque que permite cadastrar, consultar, atualizar e rem
 | Python | Kivy (GUI), MySQL (banco de dados) |
 | Java | POO (Classes, Herança, Encapsulamento) |
 | SQL | Modelagem e manipulação de dados |
+| Spring Security | Framework de segurança |
+| Hibernate Validator | Biblioteca de regras de negócio |
+| JWT | Autenticação |
 
 ---
 
